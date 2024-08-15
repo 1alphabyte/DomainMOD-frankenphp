@@ -1,24 +1,23 @@
 ---
-version: '3.7'
 services:
   app:
-    image: domainmod/domainmod:latest
+    image: ghcr.io/1alphabyte/DomainMOD-frankenphp
     container_name: domainmod_app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Vancouver
-      - DOMAINMOD_WEB_ROOT=
       - DOMAINMOD_DATABASE_HOST=db
       - DOMAINMOD_DATABASE=domainmod
-      - DOMAINMOD_USER=domainmod
-      - DOMAINMOD_PASSWORD=1f74cc83
+      - DOMAINMOD_DB_USER=domainmod
+      - DOMAINMOD_DB_PASSWORD=1f74cc83
+      - SERVER_NAME=http://localhost:8080
     volumes:
-      - ./application:/var/www/html
+      - ./caddy_data:/data
+      - ./caddy_config:/config
+      - app_data:/app
     ports:
-      - 8080:80
+      - 8080:8080
     restart: unless-stopped
 
   db:
@@ -35,3 +34,12 @@ services:
     volumes:
       - ./database:/config
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", '-p$$MYSQL_ROOT_PASSWORD']
+      start_period: 8s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:    
+  app_data:

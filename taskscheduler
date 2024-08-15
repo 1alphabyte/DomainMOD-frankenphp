@@ -1,0 +1,1 @@
+*/10 * * * * /usr/local/bin/php /app/public/cron.php >> /app/cron.log 2>&1
