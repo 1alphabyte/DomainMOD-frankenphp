@@ -1,7 +1,7 @@
 ---
 services:
   app:
-    image: ghcr.io/1alphabyte/DomainMOD-frankenphp
+    image: pi2me/domainmod-frankenphp
     container_name: domainmod_app
     depends_on:
       db:
