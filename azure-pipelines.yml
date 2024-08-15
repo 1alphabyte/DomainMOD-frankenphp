@@ -19,4 +19,5 @@ stages:
         containerRegistry: 'DockerHub'
         command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: pi2me/domainmod-frankenphp:lastest
+        tags: lastest
+        repository: docker.io/pi2me/domainmod-frankenphp
